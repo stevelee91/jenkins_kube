@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chronograf
+  labels:
+    app: chronograf
+spec:
+  type: NodePort
+  ports:
+  - name: "chronograf"
+    port: 8888
+    nodePort: 32016
+  selector:
+    app: chronograf
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chronograf
+spec:
+  selector:
+    matchLabels:
+      app: chronograf
+  template:
+    metadata:
+      labels:
+        app: chronograf
+    spec:
+      containers:
+      - name: chronograf
+        image: chronograf
+        ports:
+        - containerPort: 8888
